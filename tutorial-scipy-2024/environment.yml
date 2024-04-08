@@ -1,0 +1,22 @@
+name: ssec-scipy2024
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - ipykernel
+  - ipywidgets
+  - huggingface_hub
+  - transformers<4.39
+  - ai2-olmo
+  - pytorch
+  - tqdm
+  - fsspec
+  - gcsfs
+  - pandas
+  - sentence-transformers
+  - streamlit
+  - pip
+  - pip:
+    - qdrant-client
+    - conda-lock
