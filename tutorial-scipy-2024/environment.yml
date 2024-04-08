@@ -16,7 +16,7 @@ dependencies:
   - pandas
   - sentence-transformers
   - streamlit
+  - conda-lock
   - pip
   - pip:
     - qdrant-client
-    - conda-lock
