@@ -17,6 +17,5 @@ dependencies:
   - pip:
     - qdrant-client
     - sentence-transformers
-    - llama-cpp-python~=0.2.70
     - rse-toolbox[olmo] @ git+https://github.com/uw-ssec/rse-toolbox.git
   
