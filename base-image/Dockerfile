@@ -7,7 +7,7 @@ LABEL org.opencontainers.image.version="0.1"
 LABEL org.opencontainers.image.url="https://github.com/uw-ssec/docker-images"
 LABEL org.opencontainers.image.source="https://github.com/uw-ssec/docker-images.git"
 LABEL org.opencontainers.image.description="Base image of all SSEC images. \
-It is similar to Pangeo Docker Base Image, but this uses micromamba."
+    It is similar to Pangeo Docker Base Image, but this uses micromamba."
 LABEL org.opencontainers.image.licenses="BSD-3-Clause"
 LABEL org.opencontainers.image.vendor="UW Scientific Software Engineering Center"
 
@@ -102,37 +102,37 @@ ONBUILD RUN chown -R ${NB_USER}:${NB_USER} ${CONDA_DIR}
 # present. We check if those directories exist, and print a diagnostic
 # message here.
 ONBUILD RUN echo "Checking for 'binder' or '.binder' subfolder" \
-        ; if [ -d binder ] ; then \
-        echo "Using 'binder/' build context" \
-        ; elif [ -d .binder ] ; then \
-        echo "Using '.binder/' build context" \
-        ; else \
-        echo "Using './' build context" \
-        ; fi
+    ; if [ -d binder ] ; then \
+    echo "Using 'binder/' build context" \
+    ; elif [ -d .binder ] ; then \
+    echo "Using '.binder/' build context" \
+    ; else \
+    echo "Using './' build context" \
+    ; fi
 
 # Install apt packages specified in a apt.txt file if it exists.
 # Unlike repo2docker, blank lines nor comments are supported here.
 ONBUILD RUN echo "Checking for 'apt.txt'..." \
-        ; [ -d binder ] && cd binder \
-        ; [ -d .binder ] && cd .binder \
-        ; if test -f "apt.txt" ; then \
-        apt-get update --fix-missing > /dev/null \
-        # Read apt.txt line by line, and execute apt-get install -y for each line in apt.txt
-        && xargs -a apt.txt apt-get install -y \
-        && apt-get clean \
-        && rm -rf /var/lib/apt/lists/* \
-        ; fi
+    ; [ -d binder ] && cd binder \
+    ; [ -d .binder ] && cd .binder \
+    ; if test -f "apt.txt" ; then \
+    apt-get update --fix-missing > /dev/null \
+    # Read apt.txt line by line, and execute apt-get install -y for each line in apt.txt
+    && xargs -a apt.txt apt-get install -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    ; fi
 
 # If a jupyter_notebook_config.py exists, copy it to /etc/jupyter so
 # it will be read by jupyter processes when they start. This feature is
 # not available in repo2docker.
 ONBUILD RUN echo "Checking for 'jupyter_notebook_config.py'..." \
-        ; [ -d binder ] && cd binder \
-        ; [ -d .binder ] && cd .binder \
-        ; if test -f "jupyter_notebook_config.py" ; then \
-        mkdir -p /etc/jupyter \
-        && cp jupyter_notebook_config.py /etc/jupyter \
-        ; fi
+    ; [ -d binder ] && cd binder \
+    ; [ -d .binder ] && cd .binder \
+    ; if test -f "jupyter_notebook_config.py" ; then \
+    mkdir -p /etc/jupyter \
+    && cp jupyter_notebook_config.py /etc/jupyter \
+    ; fi
 
 ONBUILD USER ${NB_USER}
 
@@ -150,58 +150,58 @@ ONBUILD USER ${NB_USER}
 # After installing the packages, we cleanup some unnecessary files
 # to try reduce image size - see https://jcristharif.com/conda-docker-tips.html
 ONBUILD RUN echo "Checking for 'conda-lock.yml' 'conda-linux-64.lock' or 'environment.yml'..." \
-        ; [ -d binder ] && cd binder \
-        ; [ -d .binder ] && cd .binder \
-        ; if test -f "conda-lock.yml" ; then \
-        micromamba create --name ${CONDA_ENV} --file conda-lock.yml \
-        ; elif test -f "conda-linux-64.lock" ; then \
-        micromamba create --name ${CONDA_ENV} --file conda-linux-64.lock \
-        ; elif test -f "environment.yml" ; then \
-        micromamba install --yes --name ${CONDA_ENV} -f environment.yml  \
-        ; else echo "No conda-lock.yml, conda-linux-64.lock, or environment.yml! *creating default env*" ; \
-        micromamba install --yes --name ${CONDA_ENV} --channel=conda-forge pangeo-notebook \
-        ; fi \
-        && micromamba clean -yaf \
-        && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
-        && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete \
-        ; if ls ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static > /dev/null 2>&1; then \
-        find ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static -follow -type f -name '*.js' ! -name '*.min.js' -delete \
-        ; fi
+    ; [ -d binder ] && cd binder \
+    ; [ -d .binder ] && cd .binder \
+    ; if test -f "conda-lock.yml" ; then \
+    micromamba create --name ${CONDA_ENV} --file conda-lock.yml \
+    ; elif test -f "conda-linux-64.lock" ; then \
+    micromamba create --name ${CONDA_ENV} --file conda-linux-64.lock \
+    ; elif test -f "environment.yml" ; then \
+    micromamba install --yes --name ${CONDA_ENV} -f environment.yml  \
+    ; else echo "No conda-lock.yml, conda-linux-64.lock, or environment.yml! *creating default env*" ; \
+    micromamba install --yes --name ${CONDA_ENV} --channel=conda-forge pangeo-notebook \
+    ; fi \
+    && micromamba clean -yaf \
+    && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
+    && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete \
+    ; if ls ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static > /dev/null 2>&1; then \
+    find ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static -follow -type f -name '*.js' ! -name '*.min.js' -delete \
+    ; fi
 
 # If a requirements.txt file exists, use pip to install packages
 # listed there. We don't want to save cached wheels in the image
 # to avoid wasting space.
 ONBUILD RUN echo "Checking for pip 'requirements.txt'..." \
-        ; [ -d binder ] && cd binder \
-        ; [ -d .binder ] && cd .binder \
-        ; if test -f "requirements.txt" ; then \
-        ${NB_PYTHON_PREFIX}/bin/pip install --no-cache -r requirements.txt \
-        ; fi
+    ; [ -d binder ] && cd binder \
+    ; [ -d .binder ] && cd .binder \
+    ; if test -f "requirements.txt" ; then \
+    ${NB_PYTHON_PREFIX}/bin/pip install --no-cache -r requirements.txt \
+    ; fi
 
 # If a postBuild file exists, run it!
 # After it's done, we try to remove any possible cruft commands there
 # leave behind under $HOME - particularly stuff that jupyterlab extensions
 # leave behind.
 ONBUILD RUN echo "Checking for 'postBuild'..." \
-        ; [ -d binder ] && cd binder \
-        ; [ -d .binder ] && cd .binder \
-        ; if test -f "postBuild" ; then \
-        chmod +x postBuild \
-        && ./postBuild \
-        && rm -rf /tmp/* \
-        && rm -rf ${HOME}/.cache ${HOME}/.npm ${HOME}/.yarn \
-        && rm -rf ${NB_PYTHON_PREFIX}/share/jupyter/lab/staging \
-        && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
-        && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete \
-        ; fi
+    ; [ -d binder ] && cd binder \
+    ; [ -d .binder ] && cd .binder \
+    ; if test -f "postBuild" ; then \
+    chmod +x postBuild \
+    && ./postBuild \
+    && rm -rf /tmp/* \
+    && rm -rf ${HOME}/.cache ${HOME}/.npm ${HOME}/.yarn \
+    && rm -rf ${NB_PYTHON_PREFIX}/share/jupyter/lab/staging \
+    && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
+    && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete \
+    ; fi
 
 # If a start file exists, put that under /srv/start. Used in the
 # same way as a start file in repo2docker.
 ONBUILD RUN echo "Checking for 'start'..." \
-        ; [ -d binder ] && cd binder \
-        ; [ -d .binder ] && cd .binder \
-        ; if test -f "start" ; then \
-        chmod +x start \
-        && cp start /srv/start \
-        ; fi
+    ; [ -d binder ] && cd binder \
+    ; [ -d .binder ] && cd .binder \
+    ; if test -f "start" ; then \
+    chmod +x start \
+    && cp start /srv/start \
+    ; fi
 # ----------------------
