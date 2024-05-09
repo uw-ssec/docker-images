@@ -6,17 +6,17 @@ dependencies:
   - python=3.11
   - ipykernel
   - ipywidgets
-  - huggingface_hub
-  - transformers<4.39
-  - ai2-olmo
-  - pytorch
   - tqdm
   - fsspec
   - gcsfs
+  - s3fs
   - pandas
-  - sentence-transformers
   - streamlit
-  - conda-lock
+  - panel
   - pip
   - pip:
     - qdrant-client
+    - sentence-transformers
+    - llama-cpp-python~=0.2.70
+    - rse-toolbox[olmo] @ git+https://github.com/uw-ssec/rse-toolbox.git
+  
