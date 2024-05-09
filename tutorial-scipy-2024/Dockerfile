@@ -1,20 +1,6 @@
-# Use the latest version of the pangeo/base-notebook (includes CUDA support)
-FROM pangeo/base-notebook:latest
-
-# Set the user to root
-USER root
-
-# Copy the environment file into the Docker image
-COPY environment.yml /tmp/environment.yml
-
-# Create a new Conda environment from the environment.yml file
-RUN conda env create -f /tmp/environment.yml
-
-# Install wget, git, ncdu, and curl
-RUN apt-get update && apt-get install -y \
-    wget \
-    git \
-    ncdu \
-    curl \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# ONBUILD instructions in base-image/Dockerfile are used to
+# perform certain actions based on the presence of specific
+# files (such as conda-linux-64.lock, start) in this repo.
+# Refer to the base-image/Dockerfile for documentation.
+ARG SSEC_BASE_IMAGE_TAG=latest
+FROM ghcr.io/uw-ssec/base-image:${SSEC_BASE_IMAGE_TAG}

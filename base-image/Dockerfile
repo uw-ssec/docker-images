@@ -53,7 +53,7 @@ RUN chown -R ${NB_USER}:${NB_USER} /srv
 # Install basic apt packages
 RUN echo "Installing Apt-get packages..." \
     && apt-get update --fix-missing > /dev/null \
-    && apt-get install -y apt-utils wget zip tzdata vim > /dev/null \
+    && apt-get install -y apt-utils git wget zip tzdata vim > /dev/null \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
