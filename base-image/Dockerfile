@@ -14,7 +14,7 @@ LABEL org.opencontainers.image.vendor="UW Scientific Software Engineering Center
 
 # Setup environment to match variables set by repo2docker as much as possible
 # The name of the conda environment into which the requested packages are installed
-ENV CONDA_ENV=base \
+ENV CONDA_ENV=notebook \
     # Tell apt-get to not block installs by asking for interactive human input
     DEBIAN_FRONTEND=noninteractive \
     # Set username, uid and gid (same as uid) of non-root user the container will be run as
@@ -26,8 +26,7 @@ ENV CONDA_ENV=base \
     LANG=C.UTF-8  \
     LC_ALL=C.UTF-8 \
     # Install conda in the same place repo2docker does
-    CONDA_DIR=${MAMBA_ROOT_PREFIX} \
-    MAMBA_DOCKERFILE_ACTIVATE=1
+    CONDA_DIR=${MAMBA_ROOT_PREFIX}
 
 # All env vars that reference other env vars need to be in their own ENV block
 # Path to the python environment where the jupyter notebook packages are installed
@@ -70,10 +69,10 @@ WORKDIR ${HOME}
 
 # Install conda lock
 RUN echo "Installing Conda Lock..." \
-    && micromamba install --yes --channel=conda-forge --name=${CONDA_ENV} conda-lock
+    && micromamba install --yes --channel=conda-forge --name=base conda-lock
 
 EXPOSE 8888
-ENTRYPOINT ["/srv/start"]
+ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "/srv/start"]
 
 # We use ONBUILD (https://docs.docker.com/engine/reference/builder/#onbuild)
 # to support triggering certain behavior when specific files exist in the directories of our
@@ -136,6 +135,10 @@ ONBUILD RUN echo "Checking for 'jupyter_notebook_config.py'..." \
 
 ONBUILD USER ${NB_USER}
 
+# Create empty conda env and set auto activate
+ONBUILD RUN micromamba create --yes --name $CONDA_ENV
+ONBUILD ENV ENV_NAME=${CONDA_ENV}
+
 # We want to keep our images as reproducible as possible. If a lock
 # file with exact versions of all required packages is present, we use
 # it to install packages. conda-lock (https://github.com/conda-incubator/conda-lock)
@@ -157,7 +160,7 @@ ONBUILD RUN echo "Checking for 'conda-lock.yml' 'conda-linux-64.lock' or 'enviro
     ; elif test -f "conda-linux-64.lock" ; then \
     micromamba create --name ${CONDA_ENV} --file conda-linux-64.lock \
     ; elif test -f "environment.yml" ; then \
-    micromamba install --yes --name ${CONDA_ENV} -f environment.yml  \
+    micromamba install --yes --name ${CONDA_ENV} --file environment.yml  \
     ; else echo "No conda-lock.yml, conda-linux-64.lock, or environment.yml! *creating default env*" ; \
     micromamba install --yes --name ${CONDA_ENV} --channel=conda-forge pangeo-notebook \
     ; fi \
