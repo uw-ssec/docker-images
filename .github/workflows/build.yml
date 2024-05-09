@@ -140,7 +140,7 @@ jobs:
       
       - name: Inspect Image
         run: |
-            docker run ${{ steps.registry_org.outputs.image_base }}/${{ matrix.IMAGE }}:latest conda list
+            docker run ${{ steps.registry_org.outputs.image_base }}/${{ matrix.IMAGE }}:latest micromamba list
             docker images ls
       
       - name: Test Image
