@@ -53,7 +53,7 @@ RUN chown -R ${NB_USER}:${NB_USER} /srv
 # Install basic apt packages
 RUN echo "Installing Apt-get packages..." \
     && apt-get update --fix-missing > /dev/null \
-    && apt-get install -y apt-utils git wget zip tzdata vim > /dev/null \
+    && apt-get install -y wget zip tzdata > /dev/null \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -66,10 +66,6 @@ ENV TZ UTC
 
 USER ${NB_USER}
 WORKDIR ${HOME}
-
-# Install conda lock
-RUN echo "Installing Conda Lock..." \
-    && micromamba install --yes --channel=conda-forge --name=base conda-lock
 
 EXPOSE 8888
 ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "/srv/start"]
@@ -165,6 +161,7 @@ ONBUILD RUN echo "Checking for 'conda-lock.yml' 'conda-linux-64.lock' or 'enviro
     micromamba install --yes --name ${CONDA_ENV} --channel=conda-forge pangeo-notebook \
     ; fi \
     && micromamba clean -yaf \
+    && micromamba run -n ${CONDA_ENV} pip cache purge \
     && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
     && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete \
     ; if ls ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static > /dev/null 2>&1; then \
@@ -178,7 +175,8 @@ ONBUILD RUN echo "Checking for pip 'requirements.txt'..." \
     ; [ -d binder ] && cd binder \
     ; [ -d .binder ] && cd .binder \
     ; if test -f "requirements.txt" ; then \
-    ${NB_PYTHON_PREFIX}/bin/pip install --no-cache -r requirements.txt \
+    micromamba run -n ${CONDA_ENV} pip install --no-cache -r requirements.txt \
+    && micromamba run -n ${CONDA_DIR} pip cache purge \
     ; fi
 
 # If a postBuild file exists, run it!
