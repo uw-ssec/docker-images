@@ -6,6 +6,7 @@ dependencies:
   - python=3.11
   - ipykernel
   - ipywidgets
+  - libopenblas
   - tqdm
   - fsspec
   - gcsfs
