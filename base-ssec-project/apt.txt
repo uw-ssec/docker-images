@@ -1,4 +1,4 @@
-wget
+apt-utils
 git
-ncdu
 curl
+vim
