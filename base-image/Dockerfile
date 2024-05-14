@@ -157,8 +157,8 @@ ONBUILD RUN echo "Checking for 'conda-lock.yml' 'conda-linux-64.lock' or 'enviro
     micromamba create --yes --name ${CONDA_ENV} --file conda-linux-64.lock \
     ; elif test -f "environment.yml" ; then \
     micromamba install --yes --name ${CONDA_ENV} --file environment.yml  \
-    ; else echo "No conda-lock.yml, conda-linux-64.lock, or environment.yml! *creating default env*" ; \
-    micromamba install --yes --name ${CONDA_ENV} --channel=conda-forge pangeo-notebook \
+    ; else echo "No conda-lock.yml, conda-linux-64.lock, or environment.yml! *creating empty python 3.12*" ; \
+    micromamba install --yes --name ${CONDA_ENV} --channel=conda-forge python=3.12 \
     ; fi \
     && micromamba clean -yaf \
     && micromamba run -n ${CONDA_ENV} pip cache purge \
