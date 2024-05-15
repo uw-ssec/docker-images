@@ -1,6 +1,11 @@
 ARG BASE_IMAGE=mambaorg/micromamba:1.5.8-noble
 FROM --platform=$BUILDPLATFORM $BASE_IMAGE
 
+# Echo some info about platforms
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
+
 # Set image metadata labels
 LABEL org.opencontainers.image.title="SSEC Base Image"
 LABEL org.opencontainers.image.version="0.1"
