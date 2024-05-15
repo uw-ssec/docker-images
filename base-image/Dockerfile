@@ -91,12 +91,19 @@ ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "/srv/start"]
 # and easier to reason about.
 # ----------------------
 ONBUILD USER root
+
+# Set default shell for system setup
+ONBUILD SHELL ["/bin/sh", "-c"]
+
 # FIXME (?): user and home folder is hardcoded for now
 # FIXME (?): this line breaks the cache of all steps below
 ONBUILD COPY --chown=${NB_USER}:${NB_USER} . ${HOME}
 
 # Make sure that /opt/conda is owned by non-root user, so we can install additional packages
 ONBUILD RUN chown -R ${NB_USER}:${NB_USER} ${CONDA_DIR}
+
+# Put the shell back to the micromamba shell
+ONBUILD SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
 
 # repo2docker will load files from a .binder or binder directory if
 # present. We check if those directories exist, and print a diagnostic
