@@ -7,7 +7,7 @@ dependencies:
   - ipykernel
   - ipywidgets
   - jupyterlab
-  - jupyter-panel-proxy
+  - jupyter-server-proxy
   - langchain>=0.1.20
   - libopenblas
   - tqdm
@@ -19,6 +19,7 @@ dependencies:
   - panel
   - pip
   - pip:
+    - jupyter-panel-proxy==0.2.0a2
     - qdrant-client
     - sentence-transformers
     - llama-cpp-python>=0.2.70 -C cmake.args="-DLLAMA_BLAS=ON;-DLLAMA_BLAS_VENDOR=OpenBLAS"
