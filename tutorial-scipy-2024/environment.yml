@@ -7,7 +7,8 @@ dependencies:
   - ipykernel
   - ipywidgets
   - jupyterlab
-  - langchain
+  - jupyter-panel-proxy
+  - langchain>=0.1.20
   - libopenblas
   - tqdm
   - fsspec
