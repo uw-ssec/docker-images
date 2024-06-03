@@ -89,7 +89,7 @@ jobs:
       strategy:
         fail-fast: false
         matrix:
-          IMAGE: [base-ssec-project,tutorial-scipy-2024]
+          IMAGE: [base-ssec-project,project-ans-modeling,tutorial-scipy-2024]
       steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
