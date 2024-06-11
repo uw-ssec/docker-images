@@ -10,6 +10,8 @@ dependencies:
   - jupyter-server-proxy
   - libopenblas
   - nltk
+  - arxiv
+  - pymupdf
   - tqdm
   - fsspec
   - gcsfs
