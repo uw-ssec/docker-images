@@ -8,8 +8,6 @@ dependencies:
   - ipywidgets
   - jupyterlab
   - jupyter-server-proxy
-  - langchain==0.2.1
-  - langchain-community==0.2.1
   - libopenblas
   - nltk
   - tqdm
@@ -21,6 +19,8 @@ dependencies:
   - panel
   - pip
   - pip:
+    - langchain==0.2.1
+    - langchain-community==0.2.1
     - jupyter-panel-proxy==0.2.0a2
     - qdrant-client
     - sentence-transformers
