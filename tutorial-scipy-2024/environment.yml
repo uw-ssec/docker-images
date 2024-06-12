@@ -9,9 +9,6 @@ dependencies:
   - jupyterlab
   - jupyter-server-proxy
   - libopenblas
-  - nltk
-  - arxiv
-  - pymupdf
   - tqdm
   - fsspec
   - gcsfs
@@ -23,9 +20,11 @@ dependencies:
   - pip:
     - langchain==0.2.1
     - langchain-community==0.2.1
+    - langchain-qdrant==0.1.0
     - jupyter-panel-proxy==0.2.0a2
     - qdrant-client
     - sentence-transformers
+    - nltk
+    - arxiv
+    - pymupdf
     - llama-cpp-python>=0.2.70 -C cmake.args="-DLLAMA_BLAS=ON;-DLLAMA_BLAS_VENDOR=OpenBLAS"
-    - rse-toolbox[olmo] @ git+https://github.com/uw-ssec/rse-toolbox.git
-  
