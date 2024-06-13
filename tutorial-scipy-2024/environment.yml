@@ -14,13 +14,15 @@ dependencies:
   - gcsfs
   - s3fs
   - pandas
+  - pytorch==2.1.2
   - streamlit
   - panel
   - pip
   - pip:
-    - langchain==0.2.1
-    - langchain-community==0.2.1
+    - langchain==0.2.3
+    - langchain-community==0.2.4
     - langchain-qdrant==0.1.0
+    - langchain-huggingface==0.0.3
     - jupyter-panel-proxy==0.2.0a2
     - qdrant-client
     - sentence-transformers
