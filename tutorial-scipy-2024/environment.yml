@@ -30,4 +30,5 @@ dependencies:
     - nltk
     - arxiv
     - pymupdf
-    - llama-cpp-python>=0.2.70 -C cmake.args="-DLLAMA_BLAS=ON;-DLLAMA_BLAS_VENDOR=OpenBLAS"
+    - llama-cpp-python @ https://github.com/abetlen/llama-cpp-python/releases/download/v0.2.79/llama_cpp_python-0.2.79-cp311-cp311-linux_x86_64.whl
+    - ssec-tutorials @ git+https://github.com/uw-ssec/ssec_tutorials.git@c09a220b95a9194816456f5a9ab5795245d3dcb7
