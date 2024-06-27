@@ -150,7 +150,8 @@ jobs:
       - name: Inspect Image
         run: |
             docker run ${{ steps.registry_org.outputs.image_base }}/${{ matrix.IMAGE }}:latest micromamba list
-            docker images ls
+            docker run ${{ steps.registry_org.outputs.image_base }}/${{ matrix.IMAGE }}:latest pip list
+            docker images
       
       - name: Test Image
         run: |
