@@ -141,7 +141,12 @@ ONBUILD RUN echo "Checking for 'jupyter_notebook_config.py'..." \
 ONBUILD USER ${NB_USER}
 
 # Create empty conda env and set auto activate
-ONBUILD RUN micromamba create --yes --name $CONDA_ENV
+ONBUILD RUN micromamba create \
+    --yes \
+    --name $CONDA_ENV \
+    --channel conda-forge \
+    mamba \
+    conda-lock
 ONBUILD ENV ENV_NAME=${CONDA_ENV}
 
 # We want to keep our images as reproducible as possible. If a lock
@@ -161,9 +166,9 @@ ONBUILD RUN echo "Checking for 'conda-lock.yml' 'conda-linux-64.lock' or 'enviro
     ; [ -d binder ] && cd binder \
     ; [ -d .binder ] && cd .binder \
     ; if test -f "conda-lock.yml" ; then \
-    micromamba install --yes --name ${CONDA_ENV} --file conda-lock.yml \
+    conda-lock install --name ${CONDA_ENV} conda-lock.yml \
     ; elif test -f "conda-linux-64.lock" ; then \
-    micromamba install --yes --name ${CONDA_ENV} --file conda-linux-64.lock \
+    conda-lock install --name ${CONDA_ENV} conda-linux-64.lock \
     ; elif test -f "environment.yml" ; then \
     micromamba install --yes --name ${CONDA_ENV} --file environment.yml  \
     ; else echo "No conda-lock.yml, conda-linux-64.lock, or environment.yml! *creating empty python 3.12*" ; \
