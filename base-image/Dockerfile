@@ -99,6 +99,9 @@ ONBUILD COPY --chown=${NB_USER}:${NB_USER} . ${HOME}
 # Make sure that /opt/conda is owned by non-root user, so we can install additional packages
 ONBUILD RUN chown -R ${NB_USER}:${NB_USER} ${CONDA_DIR}
 
+# Make sure that home directory is owned by non-root user, so we can install additional packages
+ONBUILD RUN chown -R ${NB_USER}:${NB_USER} ${HOME}
+
 # repo2docker will load files from a .binder or binder directory if
 # present. We check if those directories exist, and print a diagnostic
 # message here.
