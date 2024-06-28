@@ -62,6 +62,13 @@ RUN echo "Installing Apt-get packages..." \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Install conda-lock tooling
+RUN echo "Installing conda-lock..." \
+    && micromamba install --yes -c conda-forge \
+        mamba \
+        conda-lock \
+    && micromamba clean -yaf
+
 # Set conda alias to micromamba
 RUN echo "alias conda='micromamba'" >> ${HOME}/.bashrc
 
@@ -161,9 +168,9 @@ ONBUILD RUN echo "Checking for 'conda-lock.yml' 'conda-linux-64.lock' or 'enviro
     ; [ -d binder ] && cd binder \
     ; [ -d .binder ] && cd .binder \
     ; if test -f "conda-lock.yml" ; then \
-    micromamba install --yes --name ${CONDA_ENV} --file conda-lock.yml \
+    conda-lock install --name ${CONDA_ENV} conda-lock.yml \
     ; elif test -f "conda-linux-64.lock" ; then \
-    micromamba install --yes --name ${CONDA_ENV} --file conda-linux-64.lock \
+    conda-lock install --name ${CONDA_ENV} conda-linux-64.lock \
     ; elif test -f "environment.yml" ; then \
     micromamba install --yes --name ${CONDA_ENV} --file environment.yml  \
     ; else echo "No conda-lock.yml, conda-linux-64.lock, or environment.yml! *creating empty python 3.12*" ; \
