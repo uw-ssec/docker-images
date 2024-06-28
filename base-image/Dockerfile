@@ -62,6 +62,13 @@ RUN echo "Installing Apt-get packages..." \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Install conda-lock tooling
+RUN echo "Installing conda-lock..." \
+    && micromamba install --yes -c conda-forge \
+        mamba \
+        conda-lock \
+    && micromamba clean -yaf
+
 # Set conda alias to micromamba
 RUN echo "alias conda='micromamba'" >> ${HOME}/.bashrc
 
@@ -141,12 +148,7 @@ ONBUILD RUN echo "Checking for 'jupyter_notebook_config.py'..." \
 ONBUILD USER ${NB_USER}
 
 # Create empty conda env and set auto activate
-ONBUILD RUN micromamba create \
-    --yes \
-    --name $CONDA_ENV \
-    --channel conda-forge \
-    mamba \
-    conda-lock
+ONBUILD RUN micromamba create --yes --name $CONDA_ENV
 ONBUILD ENV ENV_NAME=${CONDA_ENV}
 
 # We want to keep our images as reproducible as possible. If a lock
