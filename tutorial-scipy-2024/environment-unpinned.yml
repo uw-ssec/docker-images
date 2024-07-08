@@ -30,8 +30,7 @@ dependencies:
     - llama-cpp-python @ https://github.com/abetlen/llama-cpp-python/releases/download/v0.2.78-metal/llama_cpp_python-0.2.78-cp311-cp311-macosx_11_0_x86_64.whl # [osx]
     - llama-cpp-python @ https://github.com/abetlen/llama-cpp-python/releases/download/v0.2.78/llama_cpp_python-0.2.78-cp311-cp311-win_amd64.whl # [win64]
     - llama-cpp-python @ https://github.com/abetlen/llama-cpp-python/releases/download/v0.2.78-metal/llama_cpp_python-0.2.78-cp311-cp311-macosx_11_0_arm64.whl # [arm64]
-    - ssec-tutorials @ git+https://github.com/uw-ssec/ssec_tutorials.git@dd3a2e329a06e8059dace77ce698be5317a2b97d
-
+    - ssec-tutorials @ git+https://github.com/uw-ssec/ssec_tutorials.git@28e7755fb38aa330690944d79c1f1720dd1ad87e
 platforms:
   - linux-64
   - osx-64
