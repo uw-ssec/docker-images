@@ -1,10 +1,14 @@
 ARG BASE_IMAGE=mambaorg/micromamba:1.5.8-noble
+ARG PIXI_VERSION=0.26.1
 FROM --platform=$BUILDPLATFORM $BASE_IMAGE
 
 # Echo some info about platforms
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
+
+# Specify arg again here
+ARG PIXI_VERSION
 
 # Set image metadata labels
 LABEL org.opencontainers.image.title="SSEC Base Image"
@@ -58,15 +62,24 @@ RUN chown -R ${NB_USER}:${NB_USER} /srv
 # Install basic apt packages
 RUN echo "Installing Apt-get packages..." \
     && apt-get update --fix-missing > /dev/null \
-    && apt-get install -y wget zip tzdata > /dev/null \
+    && apt-get install -y wget zip tzdata curl > /dev/null \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # Set conda alias to micromamba
 RUN echo "alias conda='micromamba'" >> ${HOME}/.bashrc
 
+
+# Install Pixi
+# download the musl build since the gnu build is not available on aarch64
+RUN curl -Ls \
+    "https://github.com/prefix-dev/pixi/releases/download/v${PIXI_VERSION}/pixi-$(uname -m)-unknown-linux-musl" \
+    -o /pixi && chmod +x /pixi
+RUN /pixi --version
+RUN cp /pixi /usr/local/bin/pixi
+
 # Add TZ configuration - https://github.com/PrefectHQ/prefect/issues/3061
-ENV TZ UTC
+ENV TZ=UTC
 # ========================
 
 USER ${NB_USER}
