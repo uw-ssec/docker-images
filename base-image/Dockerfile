@@ -76,7 +76,7 @@ RUN curl -Ls \
     "https://github.com/prefix-dev/pixi/releases/download/v${PIXI_VERSION}/pixi-$(uname -m)-unknown-linux-musl" \
     -o /pixi && chmod +x /pixi
 RUN /pixi --version
-RUN cp /pixi /usr/local/bin/pixi
+RUN cp /pixi /usr/bin/pixi
 
 # Add TZ configuration - https://github.com/PrefectHQ/prefect/issues/3061
 ENV TZ=UTC
