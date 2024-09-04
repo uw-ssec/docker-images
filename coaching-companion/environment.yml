@@ -1,0 +1,29 @@
+name: coaching-companion
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.11,<3.12
+  - ipykernel
+  - ipywidgets
+  - jupyter
+  - jupyterlab
+  - jupyterlab-git
+  - numpy
+  - pandas
+  - matplotlib
+  - pydantic
+  - conda-lock
+  - django
+  - ibis-framework
+  - flake8
+  - hatch
+  - nox
+  - pre-commit
+  - psycopg2-binary
+  - pytest
+  - sqlalchemy
+  - sqlmodel
+  - nodejs
+  - pip
