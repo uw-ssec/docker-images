@@ -1,5 +1,5 @@
-ARG BASE_IMAGE=mambaorg/micromamba:1.5.8-noble
-ARG PIXI_VERSION=0.26.1
+ARG BASE_IMAGE=mambaorg/micromamba:2.3.0-debian12-slim
+ARG PIXI_VERSION=0.48.2
 FROM --platform=$BUILDPLATFORM $BASE_IMAGE
 
 # Echo some info about platforms
@@ -12,7 +12,7 @@ ARG PIXI_VERSION
 
 # Set image metadata labels
 LABEL org.opencontainers.image.title="SSEC Base Image"
-LABEL org.opencontainers.image.version="0.1"
+LABEL org.opencontainers.image.version="2025.06.26"
 LABEL org.opencontainers.image.url="https://github.com/uw-ssec/docker-images"
 LABEL org.opencontainers.image.source="https://github.com/uw-ssec/docker-images.git"
 LABEL org.opencontainers.image.description="Base image of all SSEC images. \
